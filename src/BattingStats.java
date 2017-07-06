@@ -6,55 +6,83 @@ import java.util.Scanner;
 public class BattingStats {
     public static void main(String[] args) {
         Scanner scnr = new Scanner(System.in);
-        String repeat;
+        String repeat = null;
 
         System.out.println("Let's calculate your Batting Average and Slugging Percentage!");
 
-        System.out.print("What is your name?: ");
-        String name = scnr.next();
-        int atBats;
 
+        do {
+            System.out.print("What is the player's name?: ");
+            String name = scnr.next();
+            int atBats;
 
-        System.out.print(name + ", How many at bats do you have? ");
-        atBats = scnr.nextInt();
-        while (atBats < 0) {
-            System.out.print("Invalid Input. Please try again: ");
+            System.out.print(name + ", How many at bats do you have? ");
             atBats = scnr.nextInt();
-        }
-
-        int[] batsArray = new int[atBats];
-
-        fillArray(scnr, batsArray);
-
-        double basesTotal = 0;
-        for (int i = 0; i < batsArray.length; i++) {
-            basesTotal = basesTotal + batsArray[i];
-        }
-
-        double hits = 0;
-        for (int j = 0; j < batsArray.length; j++) {
-            if (batsArray[j] < 1) {
-            } else {
-                hits = hits + 1;
+            while (atBats < 0) {
+                System.out.print("Invalid Input. Please try again: ");
+                atBats = scnr.nextInt();
             }
-        }
 
-        double batAvg = hits / atBats;
+            int[] batsArray = new int[atBats];
+
+            fillArray(scnr, batsArray);
+
+            double basesTotal = 0;
+            for (int i = 0; i < batsArray.length; i++) {
+                basesTotal = basesTotal + batsArray[i];
+            }
+
+            double hits = 0;
+            double hitsSingles = 0;
+            double hitsDoubles = 0;
+            double hitsTriples = 0;
+            double hitsHR = 0;
+            for (int j = 0; j < batsArray.length; j++) {
+                if (batsArray[j] <=0) {
+
+                } else {
+                    hits += 1;
+                }
+                if (batsArray[j] == 1) {
+                    hitsSingles = hitsSingles + 1;
+                }
+                if (batsArray[j] == 2) {
+                    hitsDoubles += 1;
+                }
+                if (batsArray[j] == 3) {
+                    hitsTriples += 1;
+                }
+                if (batsArray[j] == 4) {
+                    hitsHR += 1;
+                }
+            }
 
 
-        //Formula for Slugging Percentage
+              double batAvg = hits / atBats;
+
+
+            //Formula for Slugging Percentage
 //        ([Singles] + [Doubles x 2] + [Triples x 3] + [Home Runs x 4])/[At Bats]
-        double slugPercent = basesTotal / atBats;
+            double slugPercent = ((hitsSingles) + (hitsDoubles * 2) + (hitsTriples * 3) + (hitsHR * 4)) / atBats;
 
 
-        System.out.printf(name + ", your Batting average is: " + "%.3f", batAvg);
-        System.out.println();
-        System.out.printf("Your Slugging Percentage is: " + "%.3f", slugPercent);
-        System.out.println();
+            System.out.printf(name + ", your Batting average is: " + "%.3f", batAvg);
+            System.out.println();
 
-//            System.out.println("Would you like to find another player's stats? Y/N:");
-//            repeat = scnr.nextLine();
+            System.out.printf("Your Slugging Percentage is: " + "%.3f", slugPercent);
+            System.out.println();
 
+            System.out.print("Would you like to find another player's stats? Y/N: ");
+            repeat = scnr.nextLine();
+
+            while (!repeat.equalsIgnoreCase("Y") && (!repeat.equalsIgnoreCase("N"))) {
+                System.out.print("Invalid Input. Check another player's stats? Y/N: ");
+                repeat = scnr.nextLine();
+            }
+
+
+        } while (repeat.equalsIgnoreCase("y"));
+        System.out.println("Thanks for playing. Good bye!");
 
     }
 
